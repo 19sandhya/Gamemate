@@ -88,7 +88,7 @@ const Faqs = () => {
           }}
         >
           <div className="flex flex-col p-4">
-            <h1 className="text-xl font-bold  text-white p-2 pl-8 mb-4">
+            <h1 className=" flex justify-center text-xl font-bold  text-white p-2 pl-8 mb-4">
               Game Matching
             </h1>
             <div className="flex   p-2 pl-8 mb-4">
@@ -97,30 +97,61 @@ const Faqs = () => {
                   <img src={boy} alt="Boy" className="w-[55px] h-[55px]" />
                 </div>
                 <div className="flex flex-col justify-center items-center p-5">
-                  <span className="text-xl">Sandhya Gupta</span>
-                  <span className="text-gray-500 pt-3">BIO/AIR</span>
+                  <span className="text-2xl font-bold  ">Sandhya Gupta</span>
+                  <span className="text-gray-500 pt-0">BIO/AIR</span>
                 </div>
                 <div className="flex items-center justify-center mr-4 pt-0">
-                  <div className="flex justify-center items-center bg-gray-800 rounded-full w-6 h-6 mr-1">
+                  <div className="flex justify-center items-center border-2 border-gray-300  bg-gray-800 rounded-full w-7 h-7 mr-1">
                     <FaGem size={13} className="text-white" />
                   </div>
-                  <div className="ml-0 flex flex-col text-white">
+                  <div className="ml-0.0 flex flex-col text-white">
                     <span className="text-xs font-light mb-0 pb-0">Coins</span>
                     <span className="text-sm font-bold">00</span>
                   </div>
                 </div>
                 <div className="flex justify-center items-center">
-                  <button className="bg-orange-500 w-20 h-10 rounded-lg">
+                  <button className="bg-orange-500 w-20 h-10 rounded-lg mt-4">
                     STAKES
                   </button>
                 </div>
               </div>
-              <div className="flex items-center justify-center border border-white w-[300px] h-[330px] m-2 ml-6">
-                <img src={boy} alt="Boy" className="w-[25px] h-[25px]" />
+              <div className="flex justify-center ">
+                <span className="text-5xl  mt-20 -ml-10 text-red-600 font-rubik">
+                  V
+                </span>
+                <span className="text-7xl -ml-2 mt-20 text-red-600 font-rubik">
+                  /
+                </span>
+                <span className="text-5xl mt-28 -ml-2 text-red-600 font-rubik">
+                  S
+                </span>
+              </div>
+              <div className="flex flex-col  border border-white w-[300px] h-[330px] m-2 m-r-2 rounded-lg p-10 pt-9 -ml-5">
+                <div className="flex justify-center items-center">
+                  <img src={boy} alt="Boy" className="w-[55px] h-[55px]" />
+                </div>
+                <div className="flex flex-col justify-center items-center p-5">
+                  <span className="text-2xl font-bold  ">Sandhya Gupta</span>
+                  <span className="text-gray-500 pt-0">BIO/AIR</span>
+                </div>
+                <div className="flex items-center justify-center mr-4 pt-0">
+                  <div className="flex justify-center items-center border-2 border-gray-300  bg-gray-800 rounded-full w-7 h-7 mr-1">
+                    <FaGem size={13} className="text-white" />
+                  </div>
+                  <div className="ml-0.0 flex flex-col text-white">
+                    <span className="text-xs font-light mb-0 pb-0">Coins</span>
+                    <span className="text-sm font-bold">00</span>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center">
+                  <button className="bg-orange-500 w-20 h-10 rounded-lg mt-4">
+                    STAKES
+                  </button>
+                </div>
               </div>
             </div>
             <div className="flex  justify-center items-center">
-              <button className="bg-green-400 w-40 h-10 rounded-full">
+              <button className="bg-green-500 w-30 h-10 rounded-full pl-4 pr-4">
                 Let's Play
               </button>
             </div>

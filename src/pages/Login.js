@@ -7,9 +7,46 @@ import g from "../images/g.webp";
 import f from "../images/f.webp";
 
 export const Login = () => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
   const handleSignup = () => {
     navigate("/signup");
+  };
+
+  const handleSignin = () => {
+    setErrorMessage("");
+
+    // Basic validation
+    if (!email) {
+      setErrorMessage("Please enter your email");
+      return;
+    }
+
+    // Email validation with regex
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage("Please enter a valid email address");
+      return;
+    }
+
+    if (!username) {
+      setErrorMessage("Please enter your username");
+      return;
+    }
+
+    if (!password) {
+      setErrorMessage("Please enter your password");
+      return;
+    }
+
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long");
+      return;
+    }
   };
 
   return (
@@ -48,19 +85,31 @@ export const Login = () => {
           }}
         >
           <div className="flex flex-col items-center justify-center w-full max-w-xs px-4 py-8  rounded-md shadow-md">
+            {errorMessage && (
+              <div className="bg-red-500 text-white p-2 mb-4 rounded-md">
+                {errorMessage}
+              </div>
+            )}
+
             <input
               type="text"
               placeholder="Example@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full mt-5 p-2 rounded-lg border border-gray-300 placeholder-gray-500  bg-zinc-800"
             />
             <input
               type="text"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full mt-5 p-2 border border-gray-300 rounded-lg placeholder-gray-500  bg-zinc-800"
             />
             <input
               type="text"
               placeholder="at least 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full mt-5 p-2 border border-gray-300 rounded-lg placeholder-gray-500  bg-zinc-800"
             />
 
@@ -70,7 +119,10 @@ export const Login = () => {
               </div>
             </div>
 
-            <button className="bg-blue-950 w-full mt-2 p-2  rounded-md text-white">
+            <button
+              onClick={handleSignin}
+              className="bg-blue-950 w-full mt-2 p-2  rounded-md text-white"
+            >
               Sign in
             </button>
 
