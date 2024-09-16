@@ -13,6 +13,7 @@ export const SignUP = () => {
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [correctOtp, setCorrectOtp] = useState("");
+  const [userExists, setUserExists] = useState(false);
 
   const navigate = useNavigate();
   const handleSignin = () => {
@@ -24,33 +25,38 @@ export const SignUP = () => {
     return isValidEmail;
   };
 
-  // const otpPage = async () => {
-  //   if (validateEmail(email)) {
-  //     setError("");
-  //     navigate("/otp");
-
-  //     await axios
-  //       .post("https://gamemate.onrender.com/sendOTP", { email })
-  //       .then((response) => {
-  //         console.log(response);
-  //       });
-  //   } else setError("Invalid email address. Please enter a valid email.");
-  // };
-
   const closeModal = () => {
     setError("");
+    setUserExists(false);
   };
 
   const otpPage = async () => {
     if (validateEmail(email)) {
-      setError("");
+      setError(""); // Reset error before sending OTP
       try {
         const response = await axios.post(
-          "https://gamemate.onrender.com/sendOTP",
+          "https://gamemateserver-ezf2bagbgbhrdcdt.westindia-01.azurewebsites.net/sendOTP",
           { email }
         );
-        setCorrectOtp(response.data.otp); // Store correct OTP in state
-        navigate("/otp", { state: { correctOtp: response.data.otp } }); // Pass OTP to OTP page
+
+        if (response.status === 200 && response.data?.otp) {
+          console.log("OTP sent successfully:", response.data.otp);
+          // OTP was sent successfully
+          setCorrectOtp(response.data.otp); // Store correct OTP in state
+
+          navigate("/otp", {
+            state: {
+              email: email,
+              correctOtp: response.data.otp,
+              username: username,
+            },
+          });
+        } else if (response.status == 409) {
+          setUserExists(true);
+        } else {
+          // Handle unexpected responses here
+          setError("Failed to send OTP. Please try again.");
+        }
       } catch (error) {
         console.error("Error sending OTP:", error);
         setError("Failed to send OTP. Please try again.");
@@ -153,6 +159,32 @@ export const SignUP = () => {
               >
                 <h2 className="text-red-500 text-xl mx-40 mb-4">Error</h2>
                 <p className="text-black ml-5">{error}</p>
+                <button
+                  onClick={closeModal}
+                  className="mt-4 mx-40 px-4 py-2 bg-blue-950 text-white rounded-md"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+
+          {userExists && (
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+              onClick={closeModal}
+            >
+              <div
+                className="bg-white p-4 rounded-lg shadow-lg w-90"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h2 className="text-red-500 text-xl mx-40 mb-4">
+                  User Already Exists
+                </h2>
+                <p className="text-black ml-5">
+                  An account with this email already exists. Please try logging
+                  in instead.
+                </p>
                 <button
                   onClick={closeModal}
                   className="mt-4 mx-40 px-4 py-2 bg-blue-950 text-white rounded-md"

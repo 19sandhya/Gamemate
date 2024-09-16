@@ -1,10 +1,6 @@
 import React, { useState, useRef } from "react";
 import bg from "../assets/bg.svg";
-import { FaGoogle } from "react-icons/fa";
-import { FaSquareGooglePlus } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-import g from "../images/g.webp";
-import f from "../images/f.webp";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -13,25 +9,56 @@ export const Password = () => {
   const [rePass, setrePass] = useState("");
   const otpRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const email = location.state?.email;
+  const username = location.state?.username;
 
   const resetpass = () => {
     setPass("");
     setrePass("");
     if (otpRef.current) {
-      otpRef.current.focus(); // Focus on the password input
+      otpRef.current.focus();
     }
   };
 
-  const handlesignup = () => {
-    if (pass === rePass) {
-      navigate("/home");
-    } else {
+  const handlesignup = async () => {
+    console.log("Handling signup...");
+    if (pass !== rePass) {
       Swal.fire({
-        // icon: "error",
-        // title: "Oops...",
         text: "Passwords do not match. Please enter them again.",
         confirmButtonText: "Try Again",
-        didClose: resetpass,
+      });
+      return;
+    }
+
+    try {
+      console.log("Sending signup request...");
+      const response = await axios.post(
+        "https://gamemateserver-ezf2bagbgbhrdcdt.westindia-01.azurewebsites.net/signup",
+        { email, pass, username }
+      );
+      console.log("Signup response:", response);
+      console.log("Status Code:", response.status);
+      console.log("Response Data:", response.data);
+
+      if (response.status === 200) {
+        navigate("/home");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Signup Failed",
+          text: "Something went wrong. Please try again.",
+          confirmButtonText: "Okay",
+        });
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to sign up. Please try again.",
+        confirmButtonText: "Okay",
       });
     }
   };
